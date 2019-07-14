@@ -13,8 +13,6 @@ const now = new Date();
 const bookings = db.collection('bookings').where('created', '>=', now);
 
 async function send(booking) {
-  if (booking.email === 'anton@ju60.de') return;
-
   let text = '';
   text += '<b>Es gibt eine neue Buchunganfrage!</b>\n\n';
   text += `Name: ${booking.name}\n`;
@@ -31,7 +29,7 @@ async function send(booking) {
 let observer = bookings.onSnapshot(querySnapshot => {
     querySnapshot.docChanges().forEach(change => {
       const booking = change.doc.data();
-      booking.id = change.doc.id; 
+      booking.id = change.doc.id;
       send(booking);
       console.log({ id: change.doc.id, type: change.type });
     });
